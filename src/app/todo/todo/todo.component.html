@@ -1,0 +1,31 @@
+<mat-card>
+  <form [formGroup]="form">
+    <mat-form-field>
+      <input matInput
+      type="text"
+      formControlName="title"
+      placeholder="ToDo Name">
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput
+      rows="6"
+      formControlName="content"
+      placeholder="Stuff To Do"></textarea>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit">Save Post</button>
+  </form>
+</mat-card>
+
+<mat-accordion multi="true" *ngIf="todo.length > 0">
+  <mat-expansion-panel *ngFor="let todoitem of todo">
+    <mat-expansion-panel-header>
+      {{ todoitem.title }}
+    </mat-expansion-panel-header>
+    {{ todoitem.content }}
+  </mat-expansion-panel>
+</mat-accordion>
+<p class="noitems" *ngIf="todo.length <= 0">No List Items</p>
+

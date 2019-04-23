@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  margin-top: 1rem;
+}
+
+.noitems {
+  text-align: center;
+}
+
+mat-card {
+  width: 80%;
+  margin: auto;
+}
+
+mat-form-field, textarea {
+  width: 100%;
+}
+
+mat-accordion {
+  margin: 1rem;
+}
