@@ -1,5 +1,5 @@
 <mat-card>
-  <form [formGroup]="form">
+  <form [formGroup]="form" (submit)="onSaveList()">
     <mat-form-field>
       <input matInput
       type="text"

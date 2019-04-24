@@ -22,4 +22,14 @@ export class ListService {
       this.listUpdated.next([...this.listDisplay]);
     });
   }
+
+  addListItem(title: string, content: string) {
+    const listitem: Todo = {title: title, content: content};
+    this.http.post<{message: string}>('http://localhost:3000/api/newitem', listitem)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+        this.listDisplay.push(listitem);
+        this.listUpdated.next([...this.listDisplay]);
+      });
+  }
 }

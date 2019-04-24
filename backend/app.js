@@ -33,6 +33,14 @@ app.get("/api/todos", (req, res, next) => {
   });
 });
 
+app.post("/api/newitem", (req, res, next) => {
+  const newitem = req.body;
+  console.log(newitem);
+  res.status(201).json({
+    message: 'post added successfully'
+  });
+});
+
 
 
 module.exports = app;

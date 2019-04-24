@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Todo } from '../todo.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ListService } from '../list.service';
 
@@ -25,6 +25,16 @@ export class TodoComponent implements OnInit, OnDestroy {
     this.listSub = this.listService.getListUpdateListener().subscribe((list: Todo[]) => {
       this.todo = list;
     });
+  }
+
+  onSaveList() {
+    if (this.form.invalid) {
+      return;
+    }
+    this.listService.addListItem(
+      this.form.value.title,
+      this.form.value.content
+    );
   }
 
   ngOnDestroy() {
