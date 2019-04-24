@@ -46,7 +46,7 @@ app.post("/api/newitem", (req, res, next) => {
   console.log(newitem);
   res.status(201).json({
     message: 'post added successfully',
-    postId: createdPost._id
+    postId: newitem._id
   });
 });
 
