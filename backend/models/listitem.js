@@ -1,4 +1,4 @@
-const mongoose = require(mongoose);
+const mongoose = require('mongoose');
 
 const listItemSchema = mongoose.Schema({
   title: {type: String, required: true},

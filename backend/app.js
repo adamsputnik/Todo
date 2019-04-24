@@ -3,6 +3,8 @@ mongoose = require('mongoose');
 bodyParser = require('body-parser');
 router = express.Router();
 
+const listItem = require('./models/listitem');
+
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -23,18 +25,24 @@ mongoose.connect('mongodb+srv://admin:admin@cluster0-bgy53.mongodb.net/test?retr
 });
 
 app.get("/api/todos", (req, res, next) => {
-  const todo = [
-    {title: 'title one', content: 'content one'},
-    {title: 'title two', content: 'content two'}
-  ];
-  res.status(200).json({
-    message: 'posts fetched successfully',
-    todo: todo
+  // const todo = [
+  //   {title: 'title one', content: 'content one'},
+  //   {title: 'title two', content: 'content two'}
+  // ];
+  listItem.find().then(listitems => {
+    res.status(200).json({
+      message: 'posts fetched successfully',
+      todo: listitems
+    })
   });
 });
 
 app.post("/api/newitem", (req, res, next) => {
-  const newitem = req.body;
+  const newitem = new listItem({
+    title: req.body.title,
+    content: req.body.content
+  });
+  newitem.save();
   console.log(newitem);
   res.status(201).json({
     message: 'post added successfully'
