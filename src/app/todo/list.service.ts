@@ -24,7 +24,7 @@ export class ListService {
   }
 
   addListItem(title: string, content: string) {
-    const listitem: Todo = {title: title, content: content};
+    const listitem: Todo = {title, content};
     this.http.post<{message: string}>('http://localhost:3000/api/newitem', listitem)
       .subscribe(responseData => {
         console.log(responseData.message);
