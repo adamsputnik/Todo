@@ -37,6 +37,10 @@ export class TodoComponent implements OnInit, OnDestroy {
     );
   }
 
+  onDelete(postId: string) {
+    this.listService.deleteListItem(postId);
+  }
+
   ngOnDestroy() {
     this.listSub.unsubscribe();
   }

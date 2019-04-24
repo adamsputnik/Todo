@@ -25,6 +25,10 @@
       {{ todoitem.title }}
     </mat-expansion-panel-header>
     {{ todoitem.content }}
+    <mat-action-row>
+      <button mat-stroked-button color="primary">EDIT</button>
+      <button mat-stroked-button color="warn" (click)="onDelete(todoitem.id)">DELETE</button>
+    </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
 <p class="noitems" *ngIf="todo.length <= 0">No List Items</p>

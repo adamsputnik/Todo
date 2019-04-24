@@ -45,7 +45,17 @@ app.post("/api/newitem", (req, res, next) => {
   newitem.save();
   console.log(newitem);
   res.status(201).json({
-    message: 'post added successfully'
+    message: 'post added successfully',
+    postId: createdPost._id
+  });
+});
+
+app.delete("/api/todos/:id", (req, res, next) => {
+  listItem.deleteOne({_id: req.params.id}).then(result => {
+    console.log(result);
+    res.status(200).json({
+      message: 'Post deleted successfully'
+    });
   });
 });
 
