@@ -24,11 +24,34 @@ mongoose.connect('mongodb+srv://admin:admin@cluster0-bgy53.mongodb.net/test?retr
   console.log('Connection failed')
 });
 
+app.post("/api/newitem", (req, res, next) => {
+  const newitem = new listItem({
+    title: req.body.title,
+    content: req.body.content
+  });
+  newitem.save().then(createditem => {
+    res.status(201).json({
+      message: 'post added successfully',
+      newitem: {
+        ...createditem,
+        id: createditem._id
+      }
+    });
+  });
+});
+
+app.put("/api/todos/:id", (req, res, next) => {
+  const listitem = new listItem({
+    _id: req.body.id,
+    title: req.body.title,
+    content: req.body.content
+  });
+  listItem.updateOne({ _id: req.params.id }, listitem).then(result => {
+    res.status(200).json({ message: "Update successful!" });
+  });
+});
+
 app.get("/api/todos", (req, res, next) => {
-  // const todo = [
-  //   {title: 'title one', content: 'content one'},
-  //   {title: 'title two', content: 'content two'}
-  // ];
   listItem.find().then(listitems => {
     res.status(200).json({
       message: 'posts fetched successfully',
@@ -37,22 +60,20 @@ app.get("/api/todos", (req, res, next) => {
   });
 });
 
-app.post("/api/newitem", (req, res, next) => {
-  const newitem = new listItem({
-    title: req.body.title,
-    content: req.body.content
-  });
-  newitem.save();
-  console.log(newitem);
-  res.status(201).json({
-    message: 'post added successfully',
-    postId: newitem._id
+
+
+app.get("/api/todos/:id", (req, res, next) => {
+  listItem.findById(req.params.id).then(item => {
+    if (item) {
+      res.status(200).json(item);
+    } else {
+      res.status(404).json({ message: "Post not found!" });
+    }
   });
 });
 
 app.delete("/api/todos/:id", (req, res, next) => {
   listItem.deleteOne({_id: req.params.id}).then(result => {
-    console.log(result);
     res.status(200).json({
       message: 'Post deleted successfully'
     });

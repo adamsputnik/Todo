@@ -4,13 +4,16 @@ import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class ListService {
   private listDisplay: Todo[] = [];
   private listUpdated = new Subject<Todo[]>();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router) {}
 
   getListUpdateListener() {
     return this.listUpdated.asObservable();
@@ -34,14 +37,34 @@ export class ListService {
     });
   }
 
+  getListItem(listId: string) {
+    return this.http.get<{ _id: string; title: string; content: string }>(
+      'http://localhost:3000/api/todos/' + listId
+    );
+  }
+
+
   addListItem(title: string, content: string) {
     const listitem: Todo = {id: null, title, content};
-    this.http.post<{message: string, postId: string}>('http://localhost:3000/api/newitem', listitem)
+    this.http.post<{message: string, listId: string}>('http://localhost:3000/api/newitem', listitem)
       .subscribe(responseData => {
-        console.log(responseData.message);
-        const id = responseData.postId;
+        const id = responseData.listId;
         listitem.id = id;
         this.listDisplay.push(listitem);
+        this.listUpdated.next([...this.listDisplay]);
+      });
+    }
+
+
+  updateListItem(id: string, title: string, content: string) {
+    const item: Todo = { id, title, content };
+    this.http
+      .put('http://localhost:3000/api/todos/' + id, item)
+      .subscribe(response => {
+        const updatedList = [...this.listDisplay];
+        const oldListIndex = updatedList.findIndex(p => p.id === item.id);
+        updatedList[oldListIndex] = item;
+        this.listDisplay = updatedList;
         this.listUpdated.next([...this.listDisplay]);
       });
   }
@@ -54,4 +77,6 @@ export class ListService {
       this.listUpdated.next([...this.listDisplay]);
     });
   }
+
+
 }
