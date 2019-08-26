@@ -9,12 +9,14 @@ import { TodoComponent } from './todo/todo/todo.component';
 import { HeaderComponent } from './header/header/header.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { EditComponent } from './todo/edit/edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoComponent,
-    HeaderComponent
+    HeaderComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule,

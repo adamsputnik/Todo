@@ -16,7 +16,8 @@ app.use((req, res, next) => {
   next();
 });
 
-mongoose.connect('mongodb+srv://admin:admin@cluster0-bgy53.mongodb.net/test?retryWrites=true')
+
+mongoose.connect('mongodb+srv://admin:admin@cluster0-hxue1.mongodb.net/test?retryWrites=true')
 .then(() => {
   console.log('Connected to database');
 })
@@ -77,9 +78,12 @@ app.delete("/api/todos/:id", (req, res, next) => {
     res.status(200).json({
       message: 'Post deleted successfully'
     });
-  });
+  })
+  // .catch(error => {
+  //   res.status(500).json({
+  //     message: 'Deleting a post failed'
+  //   });
+  // });
 });
-
-
 
 module.exports = app;

@@ -1,34 +1,3 @@
-<mat-card>
-  <form [formGroup]="form">
-    <mat-form-field>
-      <input matInput
-      type="text"
-      formControlName="title"
-      placeholder="ToDo Name"
-      >
-    </mat-form-field>
-    <mat-form-field>
-      <textarea matInput
-      rows="6"
-      formControlName="content"
-      placeholder="Stuff To Do"
-      ></textarea>
-    </mat-form-field>
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="onSaveList()">Save Todo</button>
-    <button
-      mat-raised-button
-      color="accent"
-      (click)="onSaveEdits(listId)">Save Edits</button>
-    <button
-      mat-raised-button
-      color="warn"
-      (click)="onCancel()">Cancel</button>
-  </form>
-</mat-card>
-
 <mat-accordion multi="true" *ngIf="todoArray.length > 0">
   <mat-expansion-panel *ngFor="let todoitem of todoArray">
     <mat-expansion-panel-header>
@@ -36,7 +5,8 @@
     </mat-expansion-panel-header>
     {{ todoitem.content }}
     <mat-action-row>
-      <button mat-stroked-button color="primary" (click)="onEdit(todoitem.id)">EDIT</button>
+      <!-- <button mat-stroked-button color="primary" (click)="onEdit(todoitem.id)">EDIT</button> -->
+      <button mat-stroked-button color="primary" [routerLink]="['/edit', todoitem.id]">EDIT</button>
       <button mat-stroked-button color="warn" (click)="onDelete(todoitem.id)">DELETE</button>
     </mat-action-row>
   </mat-expansion-panel>

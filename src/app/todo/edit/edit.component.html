@@ -1,0 +1,30 @@
+<mat-card>
+  <form [formGroup]="form">
+    <mat-form-field>
+      <input matInput
+      type="text"
+      formControlName="title"
+      placeholder="ToDo Name"
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput
+      rows="6"
+      formControlName="content"
+      placeholder="Stuff To Do"
+      ></textarea>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onSaveList()">Save Todo</button>
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="onSaveEdits(listId)">Save Edits</button>
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="onCancel()">Cancel</button>
+  </form>
+</mat-card>

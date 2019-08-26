@@ -13,7 +13,6 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
   styleUrls: ['./todo.component.css']
 })
 export class TodoComponent implements OnInit, OnDestroy {
-  // todo: Todo[] = [];
   todo: Todo;
   todoArray: Todo[] = [];
   form: FormGroup;
@@ -27,10 +26,6 @@ export class TodoComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.form = new FormGroup({
-      title: new FormControl(null, {validators: [Validators.required]}),
-      content: new FormControl(null, {validators: [Validators.required]})
-    });
     this.listService.getList();
     this.listSub = this.listService.getListUpdateListener()
     .subscribe((list: Todo[]) => {
@@ -38,37 +33,8 @@ export class TodoComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSaveList() {
-    if (this.form.invalid) {
-      return;
-    }
-    this.listService.addListItem(
-      this.form.value.title,
-      this.form.value.content);
-      // );
-    this.form.reset();
-    location.reload();
-
-  }
-
-  onSaveEdits(listId: string) {
-    if (this.form.invalid) {
-      return;
-    }
-    this.listService.updateListItem(
-      this.listId,
-      this.form.value.title,
-      this.form.value.content
-    );
-    this.form.reset();
-    location.reload();
-  }
-
-  onCancel() {
-    this.form.reset();
-  }
-
   onEdit(listId: string) {
+    console.log(listId);
     this.itemSub = this.listService.getListItem(listId).subscribe((list) => {
       this.form.patchValue({
         title: list.title,
@@ -81,7 +47,11 @@ export class TodoComponent implements OnInit, OnDestroy {
   }
 
   onDelete(listId: string) {
-    this.listService.deleteListItem(listId);
+    this.listService.deleteListItem(listId).subscribe(response => {
+      console.log("post deleted");
+      this.listService.getList();
+      // location.reload();
+    });
   }
 
   ngOnDestroy() {

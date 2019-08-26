@@ -70,12 +70,8 @@ export class ListService {
   }
 
   deleteListItem(listId: string) {
-    this.http.delete('http://localhost:3000/api/todos/' + listId)
-    .subscribe(() => {
-      const updatedList = this.listDisplay.filter(listitem => listitem.id !== listId);
-      this.listDisplay = updatedList;
-      this.listUpdated.next([...this.listDisplay]);
-    });
+    console.log('http://localhost:3000/api/todos/' + listId);
+    return this.http.delete('http://localhost:3000/api/todos/' + listId);
   }
 
 
