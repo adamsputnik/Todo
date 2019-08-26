@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ListService } from '../list.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Todo } from '../todo.model';
 
 @Component({
   selector: 'app-edit',
@@ -11,13 +12,35 @@ import { Router } from '@angular/router';
 export class EditComponent implements OnInit {
   form: FormGroup;
   public listId: string;
+  listitem: Todo;
+  editMode = 'create';
 
-  constructor(private listService: ListService, private router: Router) { }
+  constructor(private listService: ListService, private router: Router, public route: ActivatedRoute) { }
 
   ngOnInit() {
     this.form = new FormGroup({
       title: new FormControl(null, {validators: [Validators.required]}),
       content: new FormControl(null, {validators: [Validators.required]})
+    });
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has('id')) {
+        this.listId = paramMap.get('id');
+        this.editMode = 'edit';
+        this.listService.getListItem(this.listId).subscribe(listData => {
+          this.listitem = {
+            id: listData._id,
+            title: listData.title,
+            content: listData.content
+          };
+          this.form.setValue({
+            title: this.listitem.title,
+            content: this.listitem.content
+          });
+        });
+      } else {
+        this.editMode = 'create';
+        this.listId = null;
+      }
     });
   }
 
@@ -31,8 +54,6 @@ export class EditComponent implements OnInit {
       // );
     this.form.reset();
     this.router.navigate(['/']);
-    // location.reload();
-
   }
 
   onSaveEdits(listId: string) {
@@ -45,13 +66,12 @@ export class EditComponent implements OnInit {
       this.form.value.content
     );
     this.form.reset();
-    // location.reload();
+    this.router.navigate(['/']);
   }
 
   onCancel() {
     this.form.reset();
     this.router.navigate(['/']);
-    // location.reload();
   }
 
 }

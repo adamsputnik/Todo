@@ -17,11 +17,11 @@
     <button
       mat-raised-button
       color="primary"
-      (click)="onSaveList()">Save Todo</button>
+      (click)="onSaveList()" *ngIf="editMode != 'edit'">Save Todo</button>
     <button
       mat-raised-button
       color="accent"
-      (click)="onSaveEdits(listId)">Save Edits</button>
+      (click)="onSaveEdits(listId)" *ngIf="editMode != 'create'">Save Edits</button>
     <button
       mat-raised-button
       color="warn"

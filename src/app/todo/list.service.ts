@@ -70,7 +70,6 @@ export class ListService {
   }
 
   deleteListItem(listId: string) {
-    console.log('http://localhost:3000/api/todos/' + listId);
     return this.http.delete('http://localhost:3000/api/todos/' + listId);
   }
 

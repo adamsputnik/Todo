@@ -33,24 +33,9 @@ export class TodoComponent implements OnInit, OnDestroy {
     });
   }
 
-  onEdit(listId: string) {
-    console.log(listId);
-    this.itemSub = this.listService.getListItem(listId).subscribe((list) => {
-      this.form.patchValue({
-        title: list.title,
-        content: list.content
-      });
-      this.listId = list._id;
-      return this.listId;
-    });
-
-  }
-
   onDelete(listId: string) {
     this.listService.deleteListItem(listId).subscribe(response => {
-      console.log("post deleted");
       this.listService.getList();
-      // location.reload();
     });
   }
 
