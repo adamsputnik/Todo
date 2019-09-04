@@ -4,7 +4,6 @@ import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { map } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class ListService {
@@ -12,8 +11,7 @@ export class ListService {
   private listUpdated = new Subject<Todo[]>();
 
   constructor(
-    private http: HttpClient,
-    private router: Router) {}
+    private http: HttpClient) {}
 
   getListUpdateListener() {
     return this.listUpdated.asObservable();
